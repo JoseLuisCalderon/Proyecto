@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <title>Proyecto final</title>
+        <link href="css/jquery.mobile-1.4.3.min.css" type="text/css" rel="stylesheet"/>
+        <link href="css/jquery.mobile.structure-1.4.3.min.css" type="text/css" rel="stylesheet"/>
+        <style type="text/css">
+            .contenedor{ width: 350px; float: left;}
+            .titulo{ font-size: 12pt; font-weight: bold;}
+            #camara, #foto{
+                width: 320px;
+                min-height: 240px;
+                border: 1px solid #008000;
+            }
+        </style>
+        <link rel="stylesheet" href="css/jqm-demos.css" type="text/css"/>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+        <script src="js/jquery.js" type="text/javascript"></script>
+        <script src="js/index.js" type="text/javascript"></script>
+        <script src="js/jquery.mobile-1.4.3.min.js" type="text/javascript"></script>
+        <script>
+            document.addEventListener("deviceready", onDeviceReady, false);
+            function onDeviceReady() {
+                
+            }
+
+            function onSuccess(position) {
+                $("#latitud").val(position.coords.latitude);
+                $("#longitud").val(position.coords.longitude);
+            }
+            function onError(error) {
+                alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
+            }
+            function geo() {
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            }
+            function clock() {
+                var now = new Date();
+                var outStr = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+                $("#nomservice").val(outStr);
+                setTimeout('clock()', 1000);
+            }
+            clock();
+        </script>
+    </head>
+    <body>
+        <div data-role="page" id="principal" style="text-align: center" data-theme="b">
+            <div data-role="header">
+                <p>Servicios</p>
+            </div>
+            <div data-role="content" data-theme="a" style="background: #f0f0f0;">
+                <img src="images/servicios.jpg" width="200" height="250">
+                <a href="#foto" class="ui-btn" data-transition="pop">Consultar servicio</a>
+                <a href="#nuevo" class="ui-btn" onclick="geo()">Nuevo servicio</a>
+            </div>
+            <div data-role="footer">
+                <p>Municipio Libres</p>
+            </div>
+        </div>
+        <div data-role="page" id="nuevo" style="text-align: center" data-theme="b">
+            <div data-role="header">
+                <p>Agregar nuevo servicio</p>
+                <div data-role="controlgroup" data-type="horizontal">
+                    <a href="#principal" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-home">Inicio</a>
+                    <a href="#foto1" data-rel="dialog" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-camera">Tomar foto</a>
+                </div>
+            </div>
+            <div data-role="content" data-theme="a" style="background: #f0f0f0; text-align: left">
+                <h1>Datos generales</h1>
+                <form>
+                    <label for="nomservice">Nombre del servicio:</label>
+                    <input type="text" name="text-3" id="nomservice">
+                    <label for="dueno">Propietario:</label>
+                    <input type="text" name="text-3" id="dueno">
+                    <label for="telphone">Telefono:</label>
+                    <input type="tel" name="text-1" id="telphone">
+                    <label for="mail">Correo:</label>
+                    <input type="email" name="text-3" id="mail">
+                    <label for="site">Sitio web:</label>
+                    <input type="url" name="text-3" id="site">
+                    <div class="ui-field-contain">
+                        <label for="select-native-1">Categoria:</label>
+                        <select name="select-native-1" id="select-native-1">
+                            <option value="1">Abarrotes</option>
+                            <option value="2">Salud</option>
+                            <option value="3">Hoteleria</option>
+                            <option value="4">Restaurant-Bar</option>
+                            <option value="5">Club</option>
+                            <option value="6">Gasolineras</option>
+                        </select>
+
+                    </div>
+                    <h1>Drieccion</h1>
+                    <div class="ui-field-contain">
+                        <label for="select-native-1">Barrio:</label>
+                        <select name="select-native-1" id="select-native-2">
+                            <option value="1">Sn Juan</option>
+                            <option value="2">Sn Pablo</option>
+                            <option value="3">Tetela</option>
+                            <option value="4">Guadalupe</option>
+                            <option value="5">Coatzolco</option>
+                            <option value="6">Sn Miguel</option>
+                        </select>
+
+                    </div>
+                    <label for="callenum">Calle y numero:</label>
+                    <input type="text" name="text-3" id="callenum">
+                    <label for="latitud">Latitud:</label>
+                    <input type="text" name="text-1" id="latitud">
+                    <label for="longitud">Longitud:</label>
+                    <input type="text" name="text-3" id="longitud">
+                </form>
+            </div>
+            <div data-role="footer">
+                <p>Municipio Libres</p>
+            </div>
+        </div>
+
+
+        <div data-role="page" id="foto1" style="text-align: center" data-theme="b">
+            <div data-role="header">
+                <p>Examen Tercer Parcial</p>
+
+            </div>
+            <div data-role="content" data-theme="a" style="background: #f0f0f0;">
+                <div id='botonera'>
+                    <input id='botonIniciar' type='button' value = 'Iniciar'>
+                    <input id='botonDetener' type='button' value = 'Detener'>
+                    <input id='botonFoto' type='button' value = 'Foto'>
+                </div>
+                <div class="contenedor">
+                    <div class="titulo">Cámara</div>
+                    <video id="camara" autoplay controls></video>
+                </div>
+                <div class="contenedor">
+                    <div class="titulo">Foto</div>
+                    <canvas id="foto" ></canvas>
+                </div>    
+            </div>
+            <div data-role="footer">
+                <p>Jose Carlos Sanchez</p>
+            </div>
+        </div>
+        <script>
+            window.URL = window.URL || window.webkitURL;
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || function() {
+                alert('Su navegador no soporta navigator.getUserMedia().');
+            };
+
+            jQuery(document).ready(function() {
+                //Este objeto guardará algunos datos sobre la cámara
+                window.datosVideo = {
+                    'StreamVideo': null,
+                    'url': null
+                };
+
+                jQuery('#botonIniciar').on('click', function(e) {
+                    //Pedimos al navegador que nos de acceso a 
+                    //algún dispositivo de video (la webcam)
+                    navigator.getUserMedia({'audio': false, 'video': true}, function(streamVideo) {
+                        datosVideo.StreamVideo = streamVideo;
+                        datosVideo.url = window.URL.createObjectURL(streamVideo);
+                        jQuery('#camara').attr('src', datosVideo.url);
+                    }, function() {
+                        alert('No fue posible obtener acceso a la cámara.');
+                    });
+
+                });
+
+                jQuery('#botonDetener').on('click', function(e) {
+                    if (datosVideo.StreamVideo) {
+                        datosVideo.StreamVideo.stop();
+                        window.URL.revokeObjectURL(datosVideo.url);
+                    }
+                    ;
+                });
+                jQuery('#botonFoto').on('click', function(e) {
+                    var oCamara,
+                            oFoto,
+                            oContexto,
+                            w, h;
+
+                    oCamara = jQuery('#camara');
+                    oFoto = jQuery('#foto');
+                    w = oCamara.width();
+                    h = oCamara.height();
+                    oFoto.attr({'width': w, 'height': h});
+                    oContexto = oFoto[0].getContext('2d');
+                    oContexto.drawImage(oCamara[0], 0, 0, w, h);
+
+                });
+
+            });
+        </script>
+
+    </body>
+</html>
